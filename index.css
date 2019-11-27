@@ -1,0 +1,83 @@
+:root {
+    --main-color: #457B9D;
+    --secondary-color: #8D99AE;
+    --third-color: #EDF2F4;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+header {
+    height: 80px;
+    background-color: var(--main-color);
+}
+
+header, h1 {
+    color: white;
+    text-align: center;
+    font-family: Arial;
+    font-size: 1.4em;
+    vertical-align: middle;
+    line-height: 80px;
+}
+
+#divPatientList {
+    padding: 10px;
+    overflow-y: scroll;
+    height: calc(100vh - 130px);
+}
+
+.divPatient {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    height: 130px;
+    display: grid;
+    grid-template-columns: 130px auto;
+    grid-template-rows: 1fr;
+    box-shadow: 2px 2px 4px lightgrey;
+}
+
+.patientIcon {
+    grid-column: 1;
+    font-size: 5em;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.patientName {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #457B9D;
+}
+
+.patientBirthdate {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: Arial;
+    margin-top: 40px;
+}
+
+.patientCity {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: Arial;
+    margin-top: 60px;
+}
+
+.patientWeight {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: Arial;
+    margin-top: 80px;
+}
+
+
