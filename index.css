@@ -2,6 +2,8 @@
     --main-color: #457B9D;
     --secondary-color: #8D99AE;
     --third-color: #EDF2F4;
+    --background-color: #ededed;
+    --panel-color: #fafafa;
 }
 
 html, body {
@@ -10,74 +12,100 @@ html, body {
 
 body {
     height: 100%;
+    display: grid;
+    grid-template-columns: 250px 40px 1fr 40px 1fr 40px;
+    grid-template-rows: 100px 40px 180px 40px auto 40px;
+    background-color: var(--background-color);
 }
 
+h1, p {
+    font-family: Arial;
+}
+
+/* Header */
 header {
-    height: 80px;
+    grid-row: 1;
+    grid-column: 1/7;
     background-color: var(--main-color);
+    padding-left: 10px;
 }
 
-header, h1 {
+#title {
     color: white;
     text-align: center;
-    font-family: Arial;
     font-size: 1.4em;
-    vertical-align: middle;
-    line-height: 80px;
+    text-align: left;
+    margin-left: 0;
+    line-height: 100px;
 }
 
+/* General panel styling */
+.panel {
+    background-color: var(--panel-color);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.panelHeader {
+    color: var(--main-color);
+    font-size: 1.4em;
+}
+
+hr {
+    border: 1px solid #f2f2f2;
+}
+
+/* Patient sidebar */
 #divPatientList {
+    grid-column: 1;
+    grid-row: 3/6;
+    background-color: var(--panel-color);
     padding: 10px;
-    overflow-y: scroll;
-    height: calc(100vh - 130px);
 }
 
 .divPatient {
-    width: 100%;
-    margin-bottom: 20px;
-    background-color: #f2f2f2;
-    height: 130px;
-    display: grid;
-    grid-template-columns: 130px auto;
-    grid-template-rows: 1fr;
-    box-shadow: 2px 2px 4px lightgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--background-color);
 }
 
-.patientIcon {
-    grid-column: 1;
-    font-size: 5em;
-    text-align: center;
-    margin-top: 20px;
+.divPatient:hover {
+    box-shadow: 2px 2px 5px lightgray;
 }
 
 .patientName {
-    grid-column: 2;
-    grid-row: 1;
-    margin-top: 20px;
-    font-family: Arial;
+    color: var(--main-color);
+}
+
+/* Today panel */
+#divToday {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+#pTodayStatus {
+    color: green;
     font-weight: bold;
-    color: #457B9D;
+    font-size: 2em;
+    float: right;
 }
 
-.patientBirthdate {
-    grid-column: 2;
-    grid-row: 1;
-    font-family: Arial;
-    margin-top: 40px;
+/* Detail panel */
+#divPatientDetails {
+    grid-column: 5;
+    grid-row: 3;
 }
 
-.patientCity {
-    grid-column: 2;
-    grid-row: 1;
-    font-family: Arial;
-    margin-top: 60px;
+/* History panel */
+#divPatientHistory {
+    grid-column: 3/6;
+    grid-row: 5;
 }
 
-.patientWeight {
-    grid-column: 2;
-    grid-row: 1;
-    font-family: Arial;
-    margin-top: 80px;
+#divHistoryGrid {
+    display: grid;
+    height: 100%;
 }
+
 
 

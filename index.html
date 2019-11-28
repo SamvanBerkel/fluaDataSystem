@@ -16,10 +16,31 @@
 
 <body>
     <header>
-        <h1>Choose a patient</h1>
+        <h1 id="title">Flua</h1>
     </header>
-    <div id="divPatientList">
-
+    <div id="divPatientList" class="panel">
+    
+    </div>
+    <div id="divToday" class="panel">
+      <h1 class="panelHeader">Today</h1>
+      <hr>
+      <p id="pTodayLimit">Limit: 500ml</p>
+      <p id="pTodayDrank">Drank: 200ml</p>
+      <p id="pTodayStatus">Limit not reached</p>
+    </div>
+    <div id="divPatientDetails" class="panel">
+      <h1 class="panelHeader">Details</h1>
+      <p id="pDetailsName"></p>
+      <p id="pDetailsPatientNumber"></p>
+      <p id="pDetailsBirthdate"></p>
+      <p id="pDetailsGender"></p>
+      <p id="pDetailsPhoneNumber"></p>
+    </div>
+    <div id="divPatientHistory" class="panel">
+      <h1 class="panelHeader">History</h1>
+      <div id="divHistoryGrid">
+        
+      </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="index.js"></script>

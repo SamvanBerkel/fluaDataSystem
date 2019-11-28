@@ -42,28 +42,136 @@ if(window.page == null) window.page = {
         }
     },
     set: {
-        patients: function() {
+        patientList: function() {
             console.log("set")
             page.patientJson.forEach(function(patient) {
                 let patientDiv = document.createElement('div');
                 patientDiv.classList.add('divPatient');
 
                 patientDiv.innerHTML = `
-                    <i class="fas fa-user-injured patientIcon"></i>
                     <p class="patientName">${patient.name}</p>
-                    <p class="patientGender">${patient.gender}</p>
                     <p class="patientBirthdate">4-7-1984</p>
-                    <p class="patientCity">Delft</p>
-                    <p class="patientWeight">${patient.weight}</p>
                 `.trim();
 
+                patientDiv.patient = patient;
+
                 patientDiv.addEventListener('click', function(evt) {
-                    window.location.href = "succes.html";
-                    console.log("test");
+                    page.set.patient(this.patient); 
                 })
 
                 document.getElementById('divPatientList').appendChild(patientDiv);
             })
+        }, 
+        patient: function(patient) {
+            // Set today panel
+            document.getElementById('pTodayLimit').innerHTML = `Limit: ${patient.limit} ml`
+
+            totalDrank = 0;
+            patient.intakes.forEach(function(intake) {
+                totalDrank += parseInt(intake.amount, 10)
+            })
+
+            document.getElementById('pTodayDrank').innerHTML = `Drank: ${totalDrank} ml`
+
+            if (totalDrank >= patient.limit) {
+                document.getElementById('pTodayStatus').innerHTML = 'Limit reached'
+                document.getElementById('pTodayStatus').style.color = 'lightcoral'
+            } else {
+                document.getElementById('pTodayStatus').innerHTML = 'Limit not reached'
+                document.getElementById('pTodayStatus').style.color = 'green'
+            }
+
+            // Set patient detail panel
+            document.getElementById('pDetailsName').innerHTML = patient.name;
+            document.getElementById('pDetailsPatientNumber').innerHTML = patient.patientNumber;
+            document.getElementById('pDetailsBirthdate').innerHTML = patient.birthdate;
+            document.getElementById('pDetailsGender').innerHTML = patient.gender;
+            document.getElementById('pDetailsPhoneNumber').innerHTML = patient.phoneNumber;
+        }, 
+        historyGrid: function(width, height, patient) {
+            divGrid = document.getElementById('divHistoryGrid');
+
+            divGrid.style.gridTemplateColumns = `repeat(${width + 1}, 1fr)`;
+            divGrid.style.gridTemplateRows = `repeat(${height + 1}, 1fr)`;
+
+            // Set the amount indicators on the y axis
+            for (let i = 0; i < height; i++) {
+                let amountText = document.createElement('p');
+                amountText.innerHTML = `${(i + 1) * 100} ml`
+                
+                amountText.style.gridColumn = "0";
+                amountText.style.gridRow = height - i;
+                amountText.style.borderRight = "solid 1px lightgrey";
+
+                divGrid.appendChild(amountText);
+            }
+
+            const startDate = patient.intakes[0].date; 
+
+            // Set the date indicators on the x axis
+            for (let i = 0; i < width; i++) {
+                let dateText = document.createElement('p');
+                dateText.innerHTML = `${(i + 1) * 100} ml`
+                
+                amountText.style.gridColumn = "0";
+                amountText.style.gridRow = height - i;
+                amountText.style.borderRight = "solid 1px lightgrey";
+
+                divGrid.appendChild(amountText);
+            }
+        }
+    },
+    helpers: {
+        nextDate: function(dateString) {
+            parts = dateString.split("-");
+            day = parseInt(parts[0], 10);
+            month = parseInt(parts[1], 10);
+            year = parseInt(parts[2], 10);
+
+            // Check if we need to go to the next year
+            if (month == 12 && days == 31) {
+                days = 1;
+                month = 1;
+                year++;
+            }
+            
+            // Check if we need to go the next month
+            if (days >= page.helpers.daysInMonth(month)) {
+                day = 1;
+                month++;
+            } else {
+                day++;
+            }
+
+            return `${day}-${month}-${year}`;
+        },
+        daysInMonth: function(monthString) {
+            switch(monthString) {
+                case 1:
+                    return 31;
+                case 2:
+                    return 28;
+                case 3:
+                    return 31;
+                case 4:
+                    return 30;
+                case 5:
+                    return 31;
+                case 6:
+                    return 30;
+                case 7:
+                    return 31;
+                case 8:
+                    return 31;
+                case 9:
+                    return 30;
+                case 10:
+                    return 31;
+                case 11:
+                    return 30;
+                case 12:
+                    return 31;
+            }
         }
     },
     init: async function() {
@@ -74,7 +182,10 @@ if(window.page == null) window.page = {
     
         console.log("start")
         await page.rest.getPatients();
-        page.set.patients();
+        page.set.patientList();
+
+        page.set.patient(page.patientJson[0]);
+        page.set.historyGrid(16, 20);
     }
 }
 
