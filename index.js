@@ -66,9 +66,14 @@ if(window.page == null) window.page = {
             // Set today panel
             document.getElementById('pTodayLimit').innerHTML = `Limit: ${patient.limit} ml`
 
+            let today = new Date();
+            let currentDate = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
+
             totalDrank = 0;
             patient.intakes.forEach(function(intake) {
-                totalDrank += parseInt(intake.amount, 10)
+                if (currentDate == intake.date) {
+                    totalDrank += parseInt(intake.amount, 10);
+                }
             })
 
             document.getElementById('pTodayDrank').innerHTML = `Drank: ${totalDrank} ml`
@@ -87,9 +92,13 @@ if(window.page == null) window.page = {
             document.getElementById('pDetailsBirthdate').innerHTML = patient.birthdate;
             document.getElementById('pDetailsGender').innerHTML = patient.gender;
             document.getElementById('pDetailsPhoneNumber').innerHTML = patient.phoneNumber;
+
+            // Set the patient history panell
+            page.set.historyGrid(16, 20, patient);
         }, 
         historyGrid: function(width, height, patient) {
             divGrid = document.getElementById('divHistoryGrid');
+            divGrid.innerHTML = '';
 
             divGrid.style.gridTemplateColumns = `repeat(${width + 1}, 1fr)`;
             divGrid.style.gridTemplateRows = `repeat(${height + 1}, 1fr)`;
@@ -106,18 +115,46 @@ if(window.page == null) window.page = {
                 divGrid.appendChild(amountText);
             }
 
-            const startDate = patient.intakes[0].date; 
+            let currentDate = patient.intakes[0].date;
+            let intakeIndex = 0;
 
             // Set the date indicators on the x axis
-            for (let i = 0; i < width; i++) {
+            for (let i = 2; i < width + 2; i++) {
                 let dateText = document.createElement('p');
-                dateText.innerHTML = `${(i + 1) * 100} ml`
+                dateText.innerHTML = currentDate;
                 
-                amountText.style.gridColumn = "0";
-                amountText.style.gridRow = height - i;
-                amountText.style.borderRight = "solid 1px lightgrey";
+                dateText.style.gridRow = height + 1;
+                dateText.style.gridColumn = i;
+                dateText.style.borderTop = "solid 1px lightgrey";
 
-                divGrid.appendChild(amountText);
+                divGrid.appendChild(dateText);
+
+                // Check if we need to add data to the graph for this date
+                for (let j = intakeIndex; j < patient.intakes.length; j++) {
+                    let totalIntakeAmount = 0;
+
+                    if (currentDate == patient.intakes[j].date) {
+                        totalIntakeAmount += parseInt(patient.intakes[j].amount, 10);
+                    }
+
+                    let neededBars = Math.ceil(totalIntakeAmount / 100);
+                    for (let b = 0; b < neededBars; b++) {
+                        let barDiv = document.createElement('div');
+
+                        barDiv.style.backgroundColor = 'lightcoral';
+                        barDiv.style.gridColumn = i;
+                        barDiv.style.gridRow = height - b;
+
+                        divGrid.appendChild(barDiv);
+                    }
+                }
+
+                let divLimit = document.createElement('div');
+                divLimit.style.borderTop = 'solid 1px green';
+                divLimit.style.gridRow = height - parseInt(patient.limit, 10) / 100 + 1;
+                divGrid.appendChild(divLimit);
+
+                currentDate = page.helpers.nextDate(currentDate);
             }
         }
     },
@@ -129,14 +166,14 @@ if(window.page == null) window.page = {
             year = parseInt(parts[2], 10);
 
             // Check if we need to go to the next year
-            if (month == 12 && days == 31) {
-                days = 1;
+            if (month == 12 && day == 31) {
+                day = 1;
                 month = 1;
                 year++;
             }
             
             // Check if we need to go the next month
-            if (days >= page.helpers.daysInMonth(month)) {
+            if (day >= page.helpers.daysInMonth(month)) {
                 day = 1;
                 month++;
             } else {
@@ -185,7 +222,6 @@ if(window.page == null) window.page = {
         page.set.patientList();
 
         page.set.patient(page.patientJson[0]);
-        page.set.historyGrid(16, 20);
     }
 }
 
