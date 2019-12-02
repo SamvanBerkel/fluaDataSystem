@@ -50,7 +50,7 @@ if(window.page == null) window.page = {
 
                 patientDiv.innerHTML = `
                     <p class="patientName">${patient.name}</p>
-                    <p class="patientBirthdate">4-7-1984</p>
+                    <p class="patientNumber">${patient.patientNumber}</p>
                 `.trim();
 
                 patientDiv.patient = patient;
@@ -64,7 +64,7 @@ if(window.page == null) window.page = {
         }, 
         patient: function(patient) {
             // Set today panel
-            document.getElementById('pTodayLimit').innerHTML = `Limit: ${patient.limit} ml`
+            document.getElementById('pTodayLimit').innerHTML = `${patient.limit} ml`
 
             let today = new Date();
             let currentDate = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
@@ -76,7 +76,7 @@ if(window.page == null) window.page = {
                 }
             })
 
-            document.getElementById('pTodayDrank').innerHTML = `Drank: ${totalDrank} ml`
+            document.getElementById('pTodayDrank').innerHTML = `${totalDrank} ml`
 
             if (totalDrank >= patient.limit) {
                 document.getElementById('pTodayStatus').innerHTML = 'Limit reached'
@@ -118,7 +118,7 @@ if(window.page == null) window.page = {
             let currentDate = patient.intakes[0].date;
             let intakeIndex = 0;
 
-            // Set the date indicators on the x axis
+            // Set the date indicators on the x axis and add the amount bars.
             for (let i = 2; i < width + 2; i++) {
                 let dateText = document.createElement('p');
                 dateText.innerHTML = currentDate;
@@ -126,27 +126,38 @@ if(window.page == null) window.page = {
                 dateText.style.gridRow = height + 1;
                 dateText.style.gridColumn = i;
                 dateText.style.borderTop = "solid 1px lightgrey";
+                dateText.style.paddingTop =  '10px';
 
                 divGrid.appendChild(dateText);
 
+                let totalIntakeAmount = 0;
+
                 // Check if we need to add data to the graph for this date
                 for (let j = intakeIndex; j < patient.intakes.length; j++) {
-                    let totalIntakeAmount = 0;
-
                     if (currentDate == patient.intakes[j].date) {
                         totalIntakeAmount += parseInt(patient.intakes[j].amount, 10);
                     }
+                }
 
-                    let neededBars = Math.ceil(totalIntakeAmount / 100);
-                    for (let b = 0; b < neededBars; b++) {
-                        let barDiv = document.createElement('div');
+                intakeIndex++;
 
-                        barDiv.style.backgroundColor = 'lightcoral';
-                        barDiv.style.gridColumn = i;
-                        barDiv.style.gridRow = height - b;
+                let neededBars = Math.ceil(totalIntakeAmount / 100);
+                for (let b = 0; b < neededBars; b++) {
+                    let barDiv = document.createElement('div');
 
-                        divGrid.appendChild(barDiv);
+                    barDiv.style.backgroundColor = 'lightcoral';
+                    barDiv.style.gridColumn = i;
+                    barDiv.style.gridRow = height - b;
+
+                    if (b + 1 == neededBars) {
+                        let barText = document.createElement('p');
+                        barText.innerHTML = totalIntakeAmount;
+                        barText.style.paddingTop = '5px';
+                        barText.style.textAlign = 'center'
+                        barDiv.appendChild(barText);
                     }
+
+                    divGrid.appendChild(barDiv);
                 }
 
                 let divLimit = document.createElement('div');

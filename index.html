@@ -16,21 +16,47 @@
 
 <body>
     <header>
-        <h1 id="title">Flua</h1>
+        <img id="headerLogo" src="logo design.png">
     </header>
     <div id="divPatientList" class="panel">
     
     </div>
     <div id="divToday" class="panel">
-      <h1 class="panelHeader">Today</h1>
+      <h1 class="panelHeader">Vandaag</h1>
       <hr>
-      <p id="pTodayLimit">Limit: 500ml</p>
-      <p id="pTodayDrank">Drank: 200ml</p>
-      <p id="pTodayStatus">Limit not reached</p>
+      <div>
+          <span class="infoHeader">Limiet: </span>
+          <span id="pTodayLimit"></span>
+      </div>
+      <div>
+          <span class="infoHeader">Gedronken: </span>
+          <span id="pTodayDrank"></span>
+      </div>
+      <p id="pTodayStatus">Limiet nog niet bereikt</p>
     </div>
     <div id="divPatientDetails" class="panel">
       <h1 class="panelHeader">Details</h1>
       <hr>
+      <div>
+          <span class="infoHeader">Naam: </span>
+          <span id="pDetailsName"></span>
+      </div>
+      <div>
+          <span class="infoHeader">Patient nummer: </span>
+          <span id="pDetailsPatientNumber"></span>
+      </div>
+      <div>
+          <span class="infoHeader">Geboortedatum: </span>
+          <span id="pDetailsBirthdate"></span>
+      </div>
+      <div>
+          <span class="infoHeader">Gender: </span>
+          <span id="pDetailsGender"></span>
+      </div>
+      <div>
+          <span class="infoHeader">Telefoon nummer: </span>
+          <span id="pDetailsPhoneNumber"></span>
+      </div>
       <p id="pDetailsName"></p>
       <p id="pDetailsPatientNumber"></p>
       <p id="pDetailsBirthdate"></p>
@@ -38,7 +64,7 @@
       <p id="pDetailsPhoneNumber"></p>
     </div>
     <div id="divPatientHistory" class="panel">
-      <h1 class="panelHeader">History</h1>
+      <h1 class="panelHeader">Geschiedenis</h1>
       <hr>
       <div id="divHistoryGrid">
 

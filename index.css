@@ -2,7 +2,7 @@
     --main-color: #457B9D;
     --secondary-color: #8D99AE;
     --third-color: #EDF2F4;
-    --background-color: #ededed;
+    --background-color: #eaf1f7;
     --panel-color: #fafafa;
 }
 
@@ -14,12 +14,16 @@ body {
     height: 100%;
     display: grid;
     grid-template-columns: 250px 40px 1fr 40px 1fr 40px;
-    grid-template-rows: 100px 40px 180px 40px auto 40px;
+    grid-template-rows: 100px 40px 180px 40px 550px 40px;
     background-color: var(--background-color);
 }
 
-h1, p {
+h1, p, span {
     font-family: Arial;
+}
+
+.infoHeader {
+    font-weight: bold;;
 }
 
 /* Header */
@@ -28,6 +32,10 @@ header {
     grid-column: 1/7;
     background-color: var(--main-color);
     padding-left: 10px;
+}
+
+#headerLogo {
+    height: 110px;
 }
 
 #title {
@@ -58,15 +66,16 @@ hr {
 /* Patient sidebar */
 #divPatientList {
     grid-column: 1;
-    grid-row: 3/6;
+    grid-row: 2/7;
     background-color: var(--panel-color);
     padding: 10px;
+    border-radius: 0px;
 }
 
 .divPatient {
     margin-bottom: 10px;
     padding: 10px;
-    background-color: var(--background-color);
+    border-bottom: 1px solid #f2f2f2;;
 }
 
 .divPatient:hover {
