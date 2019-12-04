@@ -152,8 +152,6 @@ if(window.page == null) window.page = {
                     barColor = 'lightcoral'
                 }
 
-                debugger;
-
                 for (let b = 0; b < neededBars; b++) {
                     let barDiv = document.createElement('div');
 
