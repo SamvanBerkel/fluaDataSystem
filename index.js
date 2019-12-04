@@ -136,10 +136,9 @@ if(window.page == null) window.page = {
                 for (let j = intakeIndex; j < patient.intakes.length; j++) {
                     if (currentDate == patient.intakes[j].date) {
                         totalIntakeAmount += parseInt(patient.intakes[j].amount, 10);
+                        intakeIndex++;
                     }
                 }
-
-                intakeIndex++;
 
                 // Add the bars that indiciate how much fluid was taken that day.
                 let neededBars = Math.ceil(totalIntakeAmount / 100);
