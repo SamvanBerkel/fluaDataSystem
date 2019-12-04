@@ -83,7 +83,7 @@ if(window.page == null) window.page = {
                 document.getElementById('pTodayStatus').style.color = 'lightcoral'
             } else {
                 document.getElementById('pTodayStatus').innerHTML = 'Limit not reached'
-                document.getElementById('pTodayStatus').style.color = 'green'
+                document.getElementById('pTodayStatus').style.color = '#5DBB63'
             }
 
             // Set patient detail panel
@@ -146,10 +146,18 @@ if(window.page == null) window.page = {
                 if (neededBars > 20) {
                     neededBars = 20;
                 }
+
+                let barColor = '#5DBB63'
+                if (totalIntakeAmount > parseInt(patient.limit, 10)) {
+                    barColor = 'lightcoral'
+                }
+
+                debugger;
+
                 for (let b = 0; b < neededBars; b++) {
                     let barDiv = document.createElement('div');
 
-                    barDiv.style.backgroundColor = 'lightcoral';
+                    barDiv.style.backgroundColor = barColor;
                     barDiv.style.gridColumn = i;
                     barDiv.style.gridRow = height - b;
 
