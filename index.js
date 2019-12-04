@@ -141,7 +141,11 @@ if(window.page == null) window.page = {
 
                 intakeIndex++;
 
+                // Add the bars that indiciate how much fluid was taken that day.
                 let neededBars = Math.ceil(totalIntakeAmount / 100);
+                if (neededBars > 20) {
+                    neededBars = 20;
+                }
                 for (let b = 0; b < neededBars; b++) {
                     let barDiv = document.createElement('div');
 
